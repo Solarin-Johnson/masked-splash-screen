@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-blog",
-    "slug": "expo-blog",
+    "name": "masked-splash-screen",
+    "slug": "masked-splash-screen",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -40,9 +40,6 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "02515bfa-b9a1-4295-b136-8bc869cf4753"
       }
     }
   }
