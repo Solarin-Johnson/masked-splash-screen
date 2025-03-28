@@ -9,14 +9,14 @@ const tintColorDark = "#fff";
 export const Colors = {
   light: {
     text: "#11181C",
-    background: "#fff",
-    barColor: "#000000",
+    background: "#FFEA9A",
+    accent: "#381C02",
     tint: tintColorLight,
   },
   dark: {
     text: "#ECEDEE",
-    background: "#1F1F1F",
-    barColor: "#000000",
+    background: "#381C02",
+    accent: "#FFEA9A",
     tint: tintColorDark,
   },
 };
