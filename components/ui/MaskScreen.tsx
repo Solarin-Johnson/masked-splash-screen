@@ -13,17 +13,47 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
   withDelay,
+  withSequence,
   withSpring,
+  WithSpringConfig,
+  withTiming,
 } from "react-native-reanimated";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Image } from "expo-image";
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
+const FINAL_SCALE = Dimensions.get("screen").width / 10;
+const IMAGE_SIZE = 150;
+
+const SPRING_CONFIG = {
+  damping: 20,
+  stiffness: 100,
+};
+
 interface MaskScreenProps {
   children: ReactNode;
   style?: ViewStyle;
 }
+
+const getBounce = (
+  opened: SharedValue<boolean>,
+  defaultValue: number = 1,
+  finalValue: number = 1,
+  expandValue: number = 0.8,
+  suckValue: number = 0.6,
+  springConfig: WithSpringConfig = SPRING_CONFIG
+) => {
+  return useDerivedValue(() => {
+    return opened.value
+      ? withSequence(
+          withTiming(expandValue, { duration: 200 }), // Expand
+          withTiming(suckValue, { duration: 150 }), // Suck in
+          withSpring(finalValue, springConfig) // Pop out
+        )
+      : defaultValue;
+  });
+};
 
 const MaskScreen: React.FC<MaskScreenProps> = ({ children, style }) => {
   const opened = useSharedValue(false);
@@ -35,7 +65,10 @@ const MaskScreen: React.FC<MaskScreenProps> = ({ children, style }) => {
   };
 
   const opacity = useDerivedValue(() => {
-    return withDelay(100, withSpring(opened.value ? 0 : 1, SPRING_CONFIG));
+    return withDelay(
+      opened.value ? 500 : 0,
+      withSpring(opened.value ? 0 : 1, SPRING_CONFIG)
+    );
   });
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -61,23 +94,11 @@ const MaskScreen: React.FC<MaskScreenProps> = ({ children, style }) => {
   );
 };
 
-const FINAL_SCALE = 30;
-const INITIAL_SCALE = 1;
-
-const SPRING_CONFIG = {
-  damping: 20,
-  stiffness: 90,
-};
-
 const MaskElement = ({ opened }: { opened: SharedValue<boolean> }) => {
-  const scale = useDerivedValue(() => {
-    return opened.value ? FINAL_SCALE : INITIAL_SCALE;
-  });
+  const scale = getBounce(opened, 1, FINAL_SCALE, 0.8, 0.5);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      width: 200,
-      height: 200,
       transform: [{ scale: withSpring(scale.value, SPRING_CONFIG) }],
     };
   });
@@ -108,10 +129,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   mask: {
-    width: 200,
-    height: 200,
-    // borderRadius: 100,
-    // backgroundColor: "#000000",
+    width: IMAGE_SIZE,
+    aspectRatio: 1,
   },
   overlay: {
     position: "absolute",
