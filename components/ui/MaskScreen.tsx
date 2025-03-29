@@ -4,14 +4,12 @@ import {
   StyleSheet,
   ViewStyle,
   Dimensions,
-  Pressable,
 } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import Animated, {
   SharedValue,
   useAnimatedStyle,
   useDerivedValue,
-  useSharedValue,
   withDelay,
   withSequence,
   withSpring,
@@ -24,7 +22,7 @@ import { Image } from "expo-image";
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 const FINAL_SCALE = Dimensions.get("screen").width / 8;
-const IMAGE_SIZE = 150;
+const IMAGE_SIZE = 150; // Depending on "imageWidth" in app.json
 
 const SPRING_CONFIG = {
   damping: 20,

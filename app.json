@@ -14,13 +14,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#381C02"
+      },
+      "package": "com.solarin.maskedsplashscreen"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/dp.png"
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
@@ -28,9 +29,9 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#FFEA9A",
-          "image": "./assets/splash-icon.png",
+          "image": "./assets/images/splash-icon.png",
           "dark": {
-            "image": "./assets/splash-icon-dark.png",
+            "image": "./assets/images/splash-icon-dark.png",
             "backgroundColor": "#381C02"
           },
           "imageWidth": 150
@@ -43,6 +44,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "28c959e6-7eff-4827-9b3c-e29a4fca50a1"
       }
     }
   }
