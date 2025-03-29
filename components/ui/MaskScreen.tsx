@@ -1,10 +1,5 @@
 import React, { ReactNode } from "react";
-import {
-  View,
-  StyleSheet,
-  ViewStyle,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, ViewStyle, Dimensions } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import Animated, {
   SharedValue,
