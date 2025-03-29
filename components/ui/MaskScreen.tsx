@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import {
   View,
   StyleSheet,
@@ -23,7 +23,7 @@ import { Image } from "expo-image";
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-const FINAL_SCALE = Dimensions.get("screen").width / 10;
+const FINAL_SCALE = Dimensions.get("screen").width / 8;
 const IMAGE_SIZE = 150;
 
 const SPRING_CONFIG = {
@@ -33,6 +33,7 @@ const SPRING_CONFIG = {
 
 interface MaskScreenProps {
   children: ReactNode;
+  opened: SharedValue<boolean>;
   style?: ViewStyle;
 }
 
@@ -55,14 +56,8 @@ const getBounce = (
   });
 };
 
-const MaskScreen: React.FC<MaskScreenProps> = ({ children, style }) => {
-  const opened = useSharedValue(false);
+const MaskScreen: React.FC<MaskScreenProps> = ({ children, opened, style }) => {
   const accent = useThemeColor({}, "accent");
-
-  const toogle = () => {
-    "worklet";
-    opened.value = !opened.value;
-  };
 
   const opacity = useDerivedValue(() => {
     return withDelay(
@@ -78,7 +73,7 @@ const MaskScreen: React.FC<MaskScreenProps> = ({ children, style }) => {
   });
 
   return (
-    <Pressable onPress={toogle} style={[styles.container, style]}>
+    <View style={[styles.container, style]}>
       <MaskedView
         style={styles.maskedView}
         maskElement={<MaskElement opened={opened} />}
@@ -90,7 +85,7 @@ const MaskScreen: React.FC<MaskScreenProps> = ({ children, style }) => {
           />
         </>
       </MaskedView>
-    </Pressable>
+    </View>
   );
 };
 
@@ -107,7 +102,7 @@ const MaskElement = ({ opened }: { opened: SharedValue<boolean> }) => {
     <View style={styles.maskWrapper}>
       <AnimatedImage
         style={[styles.mask, animatedStyle]}
-        source={require("../../assets/images/adaptive-icon.png")}
+        source={require("../../assets/images/adaptive-icon-2x.png")}
         contentFit="cover"
       />
     </View>
@@ -136,6 +131,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: "100%",
+    pointerEvents: "none",
   },
 });
 
